@@ -1,32 +1,30 @@
 /* eslint-disable react/style-prop-object */
 /* eslint-disable no-unreachable */
-import React from "react";
+import React, { useState } from "react";
+import TaskList from "./TaskList";
 import "./style.css";
 const App = () => {
+  const [newTaskText, setNewTaskText] = useState("");
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = () => {
+    if (!newTaskText) return;
+    setTasks((currentTasks) => {
+      return [...currentTasks, newTaskText];
+    });
+    setNewTaskText("");
+  };
+
+  const onChangeInput = (e) => {
+    const value = e.target.value;
+    setNewTaskText(value);
+  };
+
   return (
     <div className={"container"}>
-      <input />
-      <button>add</button>
-      <div className={"list"}>
-        <div className={"task"}>
-          <p className={"taskTitle"}>do a work</p>
-        </div>
-        <div className={"task"}>
-          <p className={"taskTitle"}>do a task</p>
-        </div>
-        <div className={"task"}>
-          <p className={"taskTitle"}>do a work</p>
-        </div>
-        <div className={"task"}>
-          <p className={"taskTitle"}>do a task</p>
-        </div>
-        <div className={"task"}>
-          <p className={"taskTitle"}>do a work</p>
-        </div>
-        <div className={"task"}>
-          <p className={"taskTitle"}>do a task</p>
-        </div>
-      </div>
+      <input value={newTaskText} onChange={onChangeInput} />
+      <button onClick={addTask}>add</button>
+      <TaskList tasks={tasks} />
     </div>
   );
 };
